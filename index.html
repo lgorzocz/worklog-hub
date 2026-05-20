@@ -544,12 +544,14 @@
       border: 1px solid rgba(108, 140, 255, 0.25);
       border-radius: 24px;
       padding: 48px;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 40px;
-      align-items: center;
+      text-align: center;
       position: relative;
       overflow: hidden;
+    }
+
+    .bug-card > div {
+      max-width: 640px;
+      margin: 0 auto;
     }
 
     .bug-card::before {
@@ -594,43 +596,6 @@
       color: var(--text);
     }
 
-    .bug-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-    }
-
-    .bug-form input,
-    .bug-form textarea {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      color: var(--text);
-      font: inherit;
-      font-size: 14px;
-      outline: none;
-      transition: border-color .2s;
-    }
-
-    .bug-form input:focus,
-    .bug-form textarea:focus {
-      border-color: var(--primary);
-    }
-
-    .bug-form textarea {
-      resize: vertical;
-      min-height: 110px;
-    }
-
-    .bug-form label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: -4px;
-    }
-
     /* ===== Footer ===== */
     footer {
       border-top: 1px solid var(--border);
@@ -661,7 +626,6 @@
       }
 
       .bug-card {
-        grid-template-columns: 1fr;
         padding: 32px;
       }
 
@@ -1108,24 +1072,6 @@
               adresu a napiš mi z čeho chceš.</p>
           </div>
 
-          <form class="bug-form" action="mailto:gorzo@email.cz" method="post" enctype="text/plain">
-            <label for="bugSubj" data-i18n="bug.subj">Předmět</label>
-            <input id="bugSubj" name="subject" type="text" data-i18n-attr="placeholder:bug.subjPh"
-              placeholder="Worklog Hub — krátký popis bugu" required>
-
-            <label for="bugBody" data-i18n="bug.body">Popis (kroky, prohlížeč, verze)</label>
-            <textarea id="bugBody" name="body" data-i18n-attr="placeholder:bug.bodyPh"
-              placeholder="Co jsi dělal/a, co jsi čekal/a a co se stalo. Prohlížeč + verze rozšíření z Nastavení."
-              required></textarea>
-
-            <button type="submit" class="btn btn-primary" style="justify-content:center; margin-top: 4px;">
-              <span data-i18n="bug.send">Odeslat e-mail</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round">
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </button>
-          </form>
         </div>
       </div>
     </section>
@@ -1237,11 +1183,6 @@
         'section.bugH': 'Našel jsi bug? Dej vědět.',
         'section.bugP': 'Worklog Hub vyvíjím sám ve volném čase a nejlépe se opraví to, o čem vím. Pošli mi prosím e-mail s popisem situace, krokem reprodukce a ideálně screenshotem.',
         'bug.hint': 'Po kliknutí se otevře tvůj e-mailový klient. Nebo zkopíruj adresu a napiš mi z čeho chceš.',
-        'bug.subj': 'Předmět',
-        'bug.subjPh': 'Worklog Hub — krátký popis bugu',
-        'bug.body': 'Popis (kroky, prohlížeč, verze)',
-        'bug.bodyPh': 'Co jsi dělal/a, co jsi čekal/a a co se stalo. Prohlížeč + verze rozšíření z Nastavení.',
-        'bug.send': 'Odeslat e-mail',
         'bug.mailSubject': 'Worklog Hub — bug report',
 
         'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
@@ -1340,11 +1281,6 @@
         'section.bugH': 'Found a bug? Let me know.',
         'section.bugP': 'I build Worklog Hub solo in my free time, and what gets fixed is what I hear about. Please send an email with what happened, repro steps and ideally a screenshot.',
         'bug.hint': 'Clicking opens your email client. Or just copy the address and write from wherever you prefer.',
-        'bug.subj': 'Subject',
-        'bug.subjPh': 'Worklog Hub — short bug description',
-        'bug.body': 'Description (steps, browser, version)',
-        'bug.bodyPh': 'What you did, what you expected, what happened. Browser + extension version from Settings.',
-        'bug.send': 'Send email',
         'bug.mailSubject': 'Worklog Hub — bug report',
 
         'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
