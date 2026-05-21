@@ -1060,7 +1060,7 @@
             <h2 data-i18n="section.bugH">Našel jsi bug? Dej vědět.</h2>
             <p data-i18n="section.bugP">Worklog Hub vyvíjím sám ve volném čase a nejlépe se opraví to, o čem vím. Pošli
               mi prosím e-mail s popisem situace, krokem reprodukce a ideálně screenshotem.</p>
-            <a class="mail" id="bugMail" href="mailto:gorzo@email.cz?subject=Worklog%20Hub%20%E2%80%94%20bug%20report">
+            <a class="mail" id="bugMail" href="mailto:worklog-hub@email.cz?subject=Worklog%20Hub%20%E2%80%94%20bug%20report">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -1348,7 +1348,7 @@
       // Mailto subject
       const mail = document.getElementById('bugMail');
       if (mail) {
-        mail.href = 'mailto:gorzo@email.cz?subject=' + encodeURIComponent(dict['bug.mailSubject']);
+        mail.href = 'mailto:worklog-hub@email.cz?subject=' + encodeURIComponent(dict['bug.mailSubject']);
       }
 
       // Language switch active state
