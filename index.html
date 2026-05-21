@@ -596,6 +596,28 @@
       color: var(--text);
     }
 
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(20, 20, 24, 0.95);
+      color: #fff;
+      border: 1px solid var(--border-2);
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     /* ===== Footer ===== */
     footer {
       border-top: 1px solid var(--border);
@@ -1004,7 +1026,7 @@
               </svg>
             </div>
             <h3 data-i18n="p.noTokenH">Žádné API tokeny</h3>
-            <p data-i18n="p.noTokenP">Rozšíření reusneuje tvoji existující Atlassian session (stejnou, kterou máš v
+            <p data-i18n="p.noTokenP">Rozšíření využívá tvoji existující Atlassian session (stejnou, kterou máš v
               prohlížeči). Nikde se nic neukládá.</p>
           </div>
           <div class="feature">
@@ -1169,7 +1191,7 @@
         'section.privacyH': 'Co se s tvými daty děje? Nic.',
         'section.privacyP': 'Worklog Hub nikam neposílá tvoji práci. Žádný cloud, žádné analytiky, žádný backend.',
         'p.noTokenH': 'Žádné API tokeny',
-        'p.noTokenP': 'Rozšíření reusneuje tvoji existující Atlassian session (stejnou, kterou máš v prohlížeči). Nikde se nic neukládá.',
+        'p.noTokenP': 'Rozšíření využívá tvoji existující Atlassian session (stejnou, kterou máš v prohlížeči). Nikde se nic neukládá.',
         'p.onlyYoursH': 'Jen tvoje instance',
         'p.onlyYoursP': 'Rozšíření komunikuje POUZE s https://*.atlassian.net, který si sám/sama nakonfiguruješ. Nic jiného.',
         'p.noTelH': 'Bez telemetrie',
@@ -1181,9 +1203,10 @@
         'section.bugEyebrow': 'Zpětná vazba',
         'section.bugH': 'Našel jsi bug? Dej vědět.',
         'section.bugP': 'Worklog Hub vyvíjím sám ve volném čase a nejlépe se opraví to, o čem vím. Pošli mi prosím e-mail s popisem situace, krokem reprodukce a ideálně screenshotem.',
-        'bug.hint': 'Po kliknutí se otevře tvůj e-mailový klient s předvyplněným předmětem.',
+        'bug.hint': 'Po kliknutí se zkopíruje adresa do schránky a pokusí se otevřít tvůj e-mailový klient.',
         'bug.mailLabel': 'Napsat e-mail',
         'bug.mailSubject': 'Worklog Hub - bug report',
+        'bug.copied': 'Adresa zkopírována do schránky',
 
         'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
         'footer.disclaimer': 'Worklog Hub není afiliovaný se společnostmi Atlassian, Google, Microsoft ani Apple. Loga jsou použita pro identifikaci zdroje (nominative use).',
@@ -1277,9 +1300,10 @@
         'section.bugEyebrow': 'Feedback',
         'section.bugH': 'Found a bug? Let me know.',
         'section.bugP': 'I build Worklog Hub solo in my free time, and what gets fixed is what I hear about. Please send an email with what happened, repro steps and ideally a screenshot.',
-        'bug.hint': 'Clicking opens your email client with a pre-filled subject.',
+        'bug.hint': 'Clicking copies the address to your clipboard and tries to open your email client.',
         'bug.mailLabel': 'Send an email',
         'bug.mailSubject': 'Worklog Hub - bug report',
+        'bug.copied': 'Address copied to clipboard',
 
         'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
         'footer.disclaimer': 'Worklog Hub is not affiliated with Atlassian, Google, Microsoft or Apple. Their logos are used purely to identify the source (nominative use).',
@@ -1378,6 +1402,41 @@
     document.querySelectorAll('.lang-switch button').forEach(btn => {
       btn.addEventListener('click', () => applyLang(btn.dataset.lang));
     });
+
+    // Copy email to clipboard on bug-report click (fallback when no mail client is registered)
+    (() => {
+      const mail = document.getElementById('bugMail');
+      if (!mail) return;
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      document.body.appendChild(toast);
+      let hideTimer;
+      mail.addEventListener('click', () => {
+        const dict = I18N[currentLang] || I18N.cs;
+        const address = 'worklog-hub@email.cz';
+        const showToast = () => {
+          toast.textContent = dict['bug.copied'] || 'Address copied';
+          toast.classList.add('show');
+          clearTimeout(hideTimer);
+          hideTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(address).then(showToast).catch(() => {});
+        } else {
+          try {
+            const ta = document.createElement('textarea');
+            ta.value = address;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast();
+          } catch (e) { }
+        }
+      });
+    })();
 
     // ================ Lightbox ================
     const lb = document.getElementById('lightbox');
