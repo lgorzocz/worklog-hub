@@ -798,7 +798,7 @@
       <div class="container">
         <div class="section-head">
           <div class="eyebrow" data-i18n="section.featuresEyebrow">Funkce</div>
-          <h2 data-i18n="section.featuresH">Vše, co potřebujete pro vykazování</h2>
+          <h2 data-i18n="section.featuresH">Vše, co potřebujete pro vykazování v Jira</h2>
           <p data-i18n="section.featuresP">Worklog Hub je pro lidi, co si práci nejdřív zapisují do vlastních poznámek - souboru nebo na papíru - a do Jiry to odesílají až později - po kontrole, nebo úpravě. Ten mezikrok udělá za vás. Méně přepínání kontextu, méně chyb, rychlejší fakturace.</p>
         </div>
 
@@ -1133,7 +1133,7 @@
         'stat.localSub': 'režim',
 
         'section.featuresEyebrow': 'Funkce',
-        'section.featuresH': 'Vše, co potřebujete pro vykazování',
+        'section.featuresH': 'Vše, co potřebujete pro vykazování v Jira',
         'section.featuresP': 'Worklog Hub je pro lidi, co si práci nejdřív zapisují do vlastních poznámek - souboru nebo na papíru - a do Jiry to odesílají až později - po kontrole, nebo úpravě. Ten mezikrok udělá za vás. Méně přepínání kontextu, méně chyb, rychlejší fakturace.',
 
         'f.calH': 'Kalendář + tabulka',
@@ -1188,14 +1188,15 @@
         'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
         'footer.disclaimer': 'Worklog Hub není afiliovaný se společnostmi Atlassian, Google, Microsoft ani Apple. Loga jsou použita pro identifikaci zdroje (nominative use).',
 
-        'cap.01': 'Kalendář + tabulka, měsíční pohled',
-        'cap.02': 'Světlý režim a česká lokalizace',
-        'cap.05': 'Reports & analytics panel',
-        'cap.06': 'Dialog pro založení worklogu',
-        'cap.08': 'Nastavení - Jira instance + kalendáře',
-        'cap.09': 'Přidání Jira instance',
-        'cap.10': 'Přidání .ics kalendáře',
-        'cap.11': 'Review návrhů z komentářů a kalendáře',
+        'cap.01': 'Měsíční pohled - tmavý režim',
+        'cap.02': 'Měsíční pohled, světlý režim + Reports panel',
+        'cap.03': 'Týdenní pohled s timelinem dnů',
+        'cap.04': 'Dialog pro založení worklogu',
+        'cap.05': 'Review návrhů z komentářů a kalendáře',
+        'cap.06': 'Nastavení - Jira instance + kalendáře',
+        'cap.07': 'Přidání Jira instance + Activity Report mapping',
+        'cap.08': 'Přidání .ics kalendáře',
+        'cap.09': 'Reports & statistiky v tmavém režimu',
       },
 
       en: {
@@ -1283,26 +1284,28 @@
         'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
         'footer.disclaimer': 'Worklog Hub is not affiliated with Atlassian, Google, Microsoft or Apple. Their logos are used purely to identify the source (nominative use).',
 
-        'cap.01': 'Calendar + table, monthly view',
-        'cap.02': 'Light mode and Czech locale',
-        'cap.05': 'Reports & analytics panel',
-        'cap.06': 'Create worklog dialog',
-        'cap.08': 'Settings - Jira instances + calendars',
-        'cap.09': 'Add Jira instance',
-        'cap.10': 'Add .ics calendar source',
-        'cap.11': 'Review suggestions from comments & calendar',
+        'cap.01': 'Monthly view - dark mode',
+        'cap.02': 'Monthly view, light mode + Reports panel',
+        'cap.03': 'Weekly view with day timeline',
+        'cap.04': 'Create worklog dialog',
+        'cap.05': 'Review suggestions from comments & calendar',
+        'cap.06': 'Settings - Jira instances + calendars',
+        'cap.07': 'Add Jira instance + Activity Report mapping',
+        'cap.08': 'Add .ics calendar source',
+        'cap.09': 'Reports & statistics in dark mode',
       },
     };
 
     const SHOTS = [
-      { f: '01-calendar-month.png', capKey: 'cap.01' },
       { f: '02-light-mode-overview.png', capKey: 'cap.02' },
-      { f: '05-overview-reports.png', capKey: 'cap.05' },
-      { f: '06-create-record.png', capKey: 'cap.06' },
-      { f: '11-suggestions-review.png', capKey: 'cap.11' },
-      { f: '08-settings-overview.png', capKey: 'cap.08' },
-      { f: '09-add-jira-instance.png', capKey: 'cap.09' },
-      { f: '10-add-calendar-source.png', capKey: 'cap.10' },
+      { f: '01-calendar-month-dark.png', capKey: 'cap.01' },
+      { f: '09-dark-mode-stats.png', capKey: 'cap.09', pos: 'bottom' },
+      { f: '03-week-view.png', capKey: 'cap.03' },
+      { f: '04-create-record.png', capKey: 'cap.04' },
+      { f: '05-suggestions-review.png', capKey: 'cap.05' },
+      { f: '06-settings-overview.png', capKey: 'cap.06' },
+      { f: '07-add-jira-instance.png', capKey: 'cap.07' },
+      { f: '08-add-calendar-source.png', capKey: 'cap.08' },
     ];
 
     // Build gallery once; captions are updated on language change
@@ -1313,7 +1316,8 @@
       div.className = 'shot';
       div.dataset.cap = s.capKey;
       div.dataset.url = url;
-      div.innerHTML = `<img src="${url}" alt="" loading="lazy"><div class="cap" data-i18n="${s.capKey}"></div>`;
+      const posStyle = s.pos ? ` style="object-position: center ${s.pos};"` : '';
+      div.innerHTML = `<img src="${url}" alt="" loading="lazy"${posStyle}><div class="cap" data-i18n="${s.capKey}"></div>`;
       div.addEventListener('click', () => {
         const cap = (I18N[currentLang] || I18N.cs)[s.capKey] || '';
         openLightbox(url, cap);
