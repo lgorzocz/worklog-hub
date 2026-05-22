@@ -12,11 +12,18 @@
   <meta name="theme-color" content="#1E3A8A">
   <link rel="canonical" href="https://worklog-hub.cz/">
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) + Consent Mode v2 (default deny, čeká na banner). -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PHMHX0MNPX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500
+    });
     gtag('js', new Date());
     gtag('config', 'G-PHMHX0MNPX');
   </script>
@@ -715,6 +722,58 @@
         display: none;
       }
     }
+
+    /* ===== Cookie consent banner ===== */
+    .consent-banner {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      background: rgba(11, 16, 32, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-2);
+      border-radius: 14px;
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      z-index: 200;
+    }
+    .consent-banner.visible { display: flex; }
+    .consent-banner p {
+      margin: 0;
+      flex: 1;
+      min-width: 240px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .consent-banner a { color: var(--primary); }
+    .consent-banner .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .consent-banner button {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter .15s ease, background .15s ease;
+    }
+    .consent-banner button:hover { background: rgba(255, 255, 255, 0.10); }
+    .consent-banner button.accept {
+      background: linear-gradient(135deg, #6c8cff 0%, #8b5cf6 100%);
+      border-color: transparent;
+      color: #ffffff;
+    }
+    .consent-banner button.accept:hover { filter: brightness(1.1); background: linear-gradient(135deg, #6c8cff 0%, #8b5cf6 100%); }
   </style>
 </head>
 
@@ -1473,6 +1532,67 @@
     document.querySelectorAll('#mainNav a').forEach(a => {
       a.addEventListener('click', () => document.getElementById('mainNav').classList.remove('open'));
     });
+  </script>
+
+  <!-- Cookie consent banner (Google Consent Mode v2) -->
+  <div class="consent-banner" id="consentBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <p id="consentMsg">Tento web používá Google Analytics k anonymním statistikám návštěvnosti. <a href="privacy.html">Více v privacy policy</a>.</p>
+    <div class="actions">
+      <button type="button" class="reject" id="consentReject">Odmítnout</button>
+      <button type="button" class="accept" id="consentAccept">Přijmout</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      const KEY = 'wh-consent';
+      const TEXT = {
+        cs: {
+          msg: 'Tento web používá Google Analytics k anonymním statistikám návštěvnosti. <a href="privacy.html">Více v privacy policy</a>.',
+          accept: 'Přijmout',
+          reject: 'Odmítnout'
+        },
+        en: {
+          msg: 'This website uses Google Analytics for anonymous traffic statistics. <a href="privacy.html">More in the privacy policy</a>.',
+          accept: 'Accept',
+          reject: 'Reject'
+        }
+      };
+      function lang() {
+        try { const s = localStorage.getItem('wh-lang'); if (s && TEXT[s]) return s; } catch (e) {}
+        const n = (navigator.language || 'cs').toLowerCase();
+        return n.startsWith('cs') || n.startsWith('sk') ? 'cs' : 'en';
+      }
+      function applyText() {
+        const t = TEXT[lang()] || TEXT.cs;
+        const msg = document.getElementById('consentMsg');
+        const a = document.getElementById('consentAccept');
+        const r = document.getElementById('consentReject');
+        if (msg) msg.innerHTML = t.msg;
+        if (a) a.textContent = t.accept;
+        if (r) r.textContent = t.reject;
+      }
+      function set(state) {
+        try { localStorage.setItem(KEY, state); } catch (e) {}
+        if (window.gtag) {
+          gtag('consent', 'update', {
+            analytics_storage: state === 'granted' ? 'granted' : 'denied'
+          });
+        }
+        document.getElementById('consentBanner').classList.remove('visible');
+      }
+      let saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      applyText();
+      if (!saved) {
+        document.getElementById('consentBanner').classList.add('visible');
+      } else if (saved === 'granted' && window.gtag) {
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+      document.getElementById('consentAccept').addEventListener('click', () => set('granted'));
+      document.getElementById('consentReject').addEventListener('click', () => set('denied'));
+      // re-apply labels when user switches site language via existing lang-switch
+      document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', () => setTimeout(applyText, 0)));
+    })();
   </script>
 
 </body>

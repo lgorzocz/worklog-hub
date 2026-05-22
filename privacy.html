@@ -11,11 +11,18 @@
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://worklog-hub.cz/privacy.html">
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) + Consent Mode v2 (default deny, čeká na banner). -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PHMHX0MNPX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500
+    });
     gtag('js', new Date());
     gtag('config', 'G-PHMHX0MNPX');
   </script>
@@ -268,6 +275,58 @@
       .prose table { font-size: 13.5px; }
       .prose th, .prose td { padding: 10px 10px; }
     }
+
+    /* ===== Cookie consent banner ===== */
+    .consent-banner {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      background: rgba(11, 16, 32, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-2);
+      border-radius: 14px;
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      z-index: 200;
+    }
+    .consent-banner.visible { display: flex; }
+    .consent-banner p {
+      margin: 0;
+      flex: 1;
+      min-width: 240px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .consent-banner a { color: var(--primary); }
+    .consent-banner .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .consent-banner button {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter .15s ease, background .15s ease;
+    }
+    .consent-banner button:hover { background: rgba(255, 255, 255, 0.10); }
+    .consent-banner button.accept {
+      background: linear-gradient(135deg, #6c8cff 0%, #8b5cf6 100%);
+      border-color: transparent;
+      color: #ffffff;
+    }
+    .consent-banner button.accept:hover { filter: brightness(1.1); background: linear-gradient(135deg, #6c8cff 0%, #8b5cf6 100%); }
   </style>
 </head>
 
@@ -299,10 +358,10 @@
     <div class="container">
       <div class="eyebrow" data-i18n="p.eyebrow">Soukromí</div>
       <h1 data-i18n="p.h0">Privacy Policy - Worklog Hub</h1>
-      <p class="updated" data-i18n="p.updated">Aktualizováno: 14. května 2026</p>
+      <p class="updated" data-i18n="p.updated">Aktualizováno: 22. května 2026</p>
 
       <div class="prose">
-        <p data-i18n="p.intro">Tento dokument popisuje, jak rozšíření prohlížeče <strong>Worklog Hub</strong> ("Rozšíření") nakládá s daty uživatelů. Rozšíření je poskytováno zdarma a běží výhradně v prohlížeči uživatele.</p>
+        <p data-i18n="p.intro" data-i18n-html>Tento dokument popisuje, jak rozšíření prohlížeče <strong>Worklog Hub</strong> ("Rozšíření") nakládá s daty uživatelů. <strong>Tato Privacy Policy se vztahuje výhradně na Rozšíření, ne na marketingový web worklog-hub.cz.</strong> Rozšíření je poskytováno zdarma a běží výhradně v prohlížeči uživatele.</p>
 
         <h2 data-i18n="p.h1">1. Data, která NESHROMAŽĎUJEME</h2>
         <p data-i18n="p.p1">Autor Rozšíření <strong>neshromažďuje, nepřenáší, neprodává, nesdílí ani nemá přístup k žádným vašim datům</strong>. Neexistuje žádný server provozovaný autorem. Nejsou v něm žádné analytiky, telemetrie, error reportingové služby, reklamní ID ani third-party trackery.</p>
@@ -340,7 +399,8 @@
         <h2 data-i18n="p.h3">3. Síťová komunikace</h2>
         <p data-i18n="p.p3intro">Rozšíření odesílá síťové požadavky <strong>výhradně</strong> na:</p>
         <ul>
-          <li data-i18n="p.p3li1"><code>https://&lt;vaše-instance&gt;.atlassian.net/rest/api/3/...</code> - Jira REST API Atlassian Cloud instancí, které <strong>jste si nakonfiguroval/a v Nastavení</strong>.</li>
+          <li data-i18n="p.p3li1" data-i18n-html><code>https://&lt;vaše-instance&gt;.atlassian.net/rest/api/3/...</code> - Jira REST API Atlassian Cloud instancí, které <strong>jste si nakonfiguroval/a v Nastavení</strong>.</li>
+          <li data-i18n="p.p3li2" data-i18n-html><strong>Volitelně</strong>, pouze po explicitní konfiguraci uživatelem v <em>Nastavení → Návrhy z kalendáře</em>: veřejné <code>.ics</code> kalendářové feedy na <code>calendar.google.com</code>, <code>outlook.office.com</code> / <code>outlook.office365.com</code> / <code>outlook.live.com</code>, <code>*.icloud.com</code>. Rozšíření feedy pouze čte (HTTPS GET anonymního ICS souboru, žádný OAuth), parsuje je lokálně a vyhledává meetingy bez worklogu. Vyžaduje jednorázové potvrzení host permission v prohlížeči.</li>
         </ul>
         <p data-i18n="p.p3outro">Rozšíření <strong>nekomunikuje</strong> s žádným jiným serverem. Neprobíhá žádná "phone home" komunikace.</p>
 
@@ -357,12 +417,17 @@
               <td><code>host_permissions: https://*.atlassian.net/*</code></td>
               <td data-i18n="p.t4r1p">Požadováno Chrome / Edge, aby Rozšíření mohlo volat Jira REST API na vašich Atlassian Cloud instancích. Bez něj nemůže Rozšíření číst ani zapisovat vaše worklogy.</td>
             </tr>
+            <tr>
+              <td><code>optional_host_permissions: calendar.google.com, outlook.office.com, outlook.office365.com, outlook.live.com, *.icloud.com</code></td>
+              <td data-i18n="p.t4r2p">Volitelné. Aktivuje se až ve chvíli, kdy uživatel přidá veřejný .ics kalendářový feed v Nastavení → Návrhy z kalendáře. Bez přidané konfigurace zůstává oprávnění neudělené a Rozšíření na žádný kalendářový endpoint nesahá.</td>
+            </tr>
           </tbody>
         </table>
         <p data-i18n="p.p4outro">Rozšíření nepožaduje žádná jiná oprávnění. Konkrétně <strong>nepožaduje</strong>: tabs, history, bookmarks, browsing data, identity, cookies, webRequest, downloads, geolocation ani content-script injection do libovolných stránek.</p>
 
         <h2 data-i18n="p.h5">5. Služby třetích stran</h2>
-        <p data-i18n="p.p5">Rozšíření komunikuje pouze s Atlassian Cloud (Jira) <strong>vaším</strong> jménem, s použitím přihlášení, které <strong>vy</strong> poskytujete. Na tuto komunikaci se vztahují vlastní Privacy Policy Atlassianu: <a href="https://www.atlassian.com/legal/privacy-policy" target="_blank" rel="noopener">https://www.atlassian.com/legal/privacy-policy</a>. Žádná jiná služba třetí strany od Rozšíření data nedostává.</p>
+        <p data-i18n="p.p5" data-i18n-html>Rozšíření komunikuje s Atlassian Cloud (Jira) <strong>vaším</strong> jménem, s použitím přihlášení, které <strong>vy</strong> poskytujete. Na tuto komunikaci se vztahují vlastní Privacy Policy Atlassianu: <a href="https://www.atlassian.com/legal/privacy-policy" target="_blank" rel="noopener">https://www.atlassian.com/legal/privacy-policy</a>. Pokud uživatel ručně nakonfiguruje veřejný .ics kalendářový feed (viz Sekce 3), Rozšíření tento feed stahuje z domény poskytovatele (Google / Microsoft / Apple) — na tuto komunikaci se vztahují privacy policy příslušného poskytovatele. Žádná jiná služba třetí strany od Rozšíření data nedostává.</p>
+        <p data-i18n="p.p5web" data-i18n-html><strong>Poznámka k webu:</strong> Tato stránka Privacy Policy je hostovaná na marketingovém webu <code>worklog-hub.cz</code>, který používá Google Analytics 4 pro anonymní statistiky návštěvnosti. Rozšíření samotné Google Analytics ani žádnou jinou trackovací službu nevolá ani na ni neodesílá žádná data.</p>
 
         <h2 data-i18n="p.h6">6. Soukromí dětí</h2>
         <p data-i18n="p.p6">Rozšíření je nástroj pro pracovní produktivitu a není určeno dětem mladším 13 let. Vědomě neshromažďujeme data od dětí.</p>
@@ -404,9 +469,9 @@
 
         'p.eyebrow': 'Soukromí',
         'p.h0': 'Privacy Policy - Worklog Hub',
-        'p.updated': 'Aktualizováno: 14. května 2026',
+        'p.updated': 'Aktualizováno: 22. května 2026',
 
-        'p.intro': 'Tento dokument popisuje, jak rozšíření prohlížeče Worklog Hub („Rozšíření") nakládá s daty uživatelů. Rozšíření je poskytováno zdarma a běží výhradně v prohlížeči uživatele.',
+        'p.intro': 'Tento dokument popisuje, jak rozšíření prohlížeče <strong>Worklog Hub</strong> („Rozšíření") nakládá s daty uživatelů. <strong>Tato Privacy Policy se vztahuje výhradně na Rozšíření, ne na marketingový web worklog-hub.cz.</strong> Rozšíření je poskytováno zdarma a běží výhradně v prohlížeči uživatele.',
 
         'p.h1': '1. Data, která NESHROMAŽĎUJEME',
         'p.p1': 'Autor Rozšíření neshromažďuje, nepřenáší, neprodává, nesdílí ani nemá přístup k žádným vašim datům. Neexistuje žádný server provozovaný autorem. Nejsou v něm žádné analytiky, telemetrie, error reportingové služby, reklamní ID ani third-party trackery.',
@@ -426,16 +491,19 @@
 
         'p.h3': '3. Síťová komunikace',
         'p.p3intro': 'Rozšíření odesílá síťové požadavky výhradně na:',
-        'p.p3li1': 'https://<vaše-instance>.atlassian.net/rest/api/3/... - Jira REST API Atlassian Cloud instancí, které jste si nakonfiguroval/a v Nastavení.',
+        'p.p3li1': '<code>https://&lt;vaše-instance&gt;.atlassian.net/rest/api/3/...</code> - Jira REST API Atlassian Cloud instancí, které <strong>jste si nakonfiguroval/a v Nastavení</strong>.',
+        'p.p3li2': '<strong>Volitelně</strong>, pouze po explicitní konfiguraci uživatelem v <em>Nastavení → Návrhy z kalendáře</em>: veřejné <code>.ics</code> kalendářové feedy na <code>calendar.google.com</code>, <code>outlook.office.com</code> / <code>outlook.office365.com</code> / <code>outlook.live.com</code>, <code>*.icloud.com</code>. Rozšíření feedy pouze čte (HTTPS GET anonymního ICS souboru, žádný OAuth), parsuje je lokálně a vyhledává meetingy bez worklogu. Vyžaduje jednorázové potvrzení host permission v prohlížeči.',
         'p.p3outro': 'Rozšíření nekomunikuje s žádným jiným serverem. Neprobíhá žádná „phone home" komunikace.',
 
         'p.h4': '4. Oprávnění a proč o ně žádáme',
         'p.tColPerm': 'Oprávnění',
         'p.t4r1p': 'Požadováno Chrome / Edge, aby Rozšíření mohlo volat Jira REST API na vašich Atlassian Cloud instancích. Bez něj nemůže Rozšíření číst ani zapisovat vaše worklogy.',
+        'p.t4r2p': 'Volitelné. Aktivuje se až ve chvíli, kdy uživatel přidá veřejný .ics kalendářový feed v Nastavení → Návrhy z kalendáře. Bez přidané konfigurace zůstává oprávnění neudělené a Rozšíření na žádný kalendářový endpoint nesahá.',
         'p.p4outro': 'Rozšíření nepožaduje žádná jiná oprávnění. Konkrétně nepožaduje: tabs, history, bookmarks, browsing data, identity, cookies, webRequest, downloads, geolocation ani content-script injection do libovolných stránek.',
 
         'p.h5': '5. Služby třetích stran',
-        'p.p5': 'Rozšíření komunikuje pouze s Atlassian Cloud (Jira) vaším jménem, s použitím přihlášení, které vy poskytujete. Na tuto komunikaci se vztahují vlastní Privacy Policy Atlassianu: https://www.atlassian.com/legal/privacy-policy. Žádná jiná služba třetí strany od Rozšíření data nedostává.',
+        'p.p5': 'Rozšíření komunikuje s Atlassian Cloud (Jira) <strong>vaším</strong> jménem, s použitím přihlášení, které <strong>vy</strong> poskytujete. Na tuto komunikaci se vztahují vlastní Privacy Policy Atlassianu: <a href="https://www.atlassian.com/legal/privacy-policy" target="_blank" rel="noopener">https://www.atlassian.com/legal/privacy-policy</a>. Pokud uživatel ručně nakonfiguruje veřejný .ics kalendářový feed (viz Sekce 3), Rozšíření tento feed stahuje z domény poskytovatele (Google / Microsoft / Apple) — na tuto komunikaci se vztahují privacy policy příslušného poskytovatele. Žádná jiná služba třetí strany od Rozšíření data nedostává.',
+        'p.p5web': '<strong>Poznámka k webu:</strong> Tato stránka Privacy Policy je hostovaná na marketingovém webu <code>worklog-hub.cz</code>, který používá Google Analytics 4 pro anonymní statistiky návštěvnosti. Rozšíření samotné Google Analytics ani žádnou jinou trackovací službu nevolá ani na ni neodesílá žádná data.',
 
         'p.h6': '6. Soukromí dětí',
         'p.p6': 'Rozšíření je nástroj pro pracovní produktivitu a není určeno dětem mladším 13 let. Vědomě neshromažďujeme data od dětí.',
@@ -460,9 +528,9 @@
 
         'p.eyebrow': 'Privacy',
         'p.h0': 'Privacy Policy - Worklog Hub',
-        'p.updated': 'Last updated: May 14, 2026',
+        'p.updated': 'Last updated: May 22, 2026',
 
-        'p.intro': 'This Privacy Policy describes how the Worklog Hub browser extension ("the Extension") handles user data. The Extension is provided free of charge and operates entirely inside the user\'s browser.',
+        'p.intro': 'This Privacy Policy describes how the Worklog Hub browser extension ("the Extension") handles user data. <strong>This Privacy Policy applies exclusively to the Extension, not to the marketing website worklog-hub.cz.</strong> The Extension is provided free of charge and operates entirely inside the user\'s browser.',
 
         'p.h1': '1. Data we do NOT collect',
         'p.p1': 'The author of the Extension does not collect, transmit, sell, share, or have access to any of your data. There is no backend server operated by the author. There are no analytics, no telemetry, no error reporting services, no advertising IDs, no third-party trackers.',
@@ -482,16 +550,19 @@
 
         'p.h3': '3. Network requests',
         'p.p3intro': 'The Extension issues network requests only to:',
-        'p.p3li1': 'https://<your-instance>.atlassian.net/rest/api/3/... - the Jira REST API of the Atlassian Cloud instance(s) you have configured in Settings.',
+        'p.p3li1': '<code>https://&lt;your-instance&gt;.atlassian.net/rest/api/3/...</code> - the Jira REST API of the Atlassian Cloud instance(s) you have <strong>configured in Settings</strong>.',
+        'p.p3li2': '<strong>Optionally</strong>, only after the user explicitly configures a source in <em>Settings → Calendar suggestions</em>: public <code>.ics</code> calendar feeds on <code>calendar.google.com</code>, <code>outlook.office.com</code> / <code>outlook.office365.com</code> / <code>outlook.live.com</code>, <code>*.icloud.com</code>. The Extension only reads these feeds (anonymous HTTPS GET of the ICS file, no OAuth), parses them locally and looks for meetings without a logged worklog. Requires a one-time browser host-permission confirmation.',
         'p.p3outro': 'The Extension does not contact any other server. There is no "phone home" traffic.',
 
         'p.h4': '4. Permissions and why we ask for them',
         'p.tColPerm': 'Permission',
         'p.t4r1p': 'Required by Chrome / Edge so the Extension may call the Jira REST API on your Atlassian Cloud instance(s). Without it, the Extension cannot read or write your worklogs.',
+        'p.t4r2p': 'Optional. Activated only when the user adds a public .ics calendar feed in Settings → Calendar suggestions. Without configured feeds the permission remains ungranted and the Extension never touches any calendar endpoint.',
         'p.p4outro': 'The Extension requests no other permissions. In particular, it does not request: tabs, history, bookmarks, browsing data, identity, cookies, webRequest, downloads, geolocation, or content-script injection into arbitrary sites.',
 
         'p.h5': '5. Third-party services',
-        'p.p5': 'The Extension communicates only with Atlassian Cloud (Jira) on your behalf, using credentials you provide. Atlassian\'s own Privacy Policy applies to that communication: https://www.atlassian.com/legal/privacy-policy. No other third-party service receives data from the Extension.',
+        'p.p5': 'The Extension communicates with Atlassian Cloud (Jira) on <strong>your</strong> behalf, using credentials <strong>you</strong> provide. Atlassian\'s own Privacy Policy applies to that communication: <a href="https://www.atlassian.com/legal/privacy-policy" target="_blank" rel="noopener">https://www.atlassian.com/legal/privacy-policy</a>. If the user manually configures a public .ics calendar feed (see Section 3), the Extension downloads it from the provider\'s domain (Google / Microsoft / Apple) — the corresponding provider\'s privacy policy applies to that communication. No other third-party service receives data from the Extension.',
+        'p.p5web': '<strong>Note about the website:</strong> This Privacy Policy page is hosted on the marketing website <code>worklog-hub.cz</code>, which uses Google Analytics 4 for anonymous traffic statistics. The Extension itself does not call Google Analytics or any other tracking service, nor does it send any data to such a service.',
 
         'p.h6': '6. Children\'s privacy',
         'p.p6': 'The Extension is a workplace productivity tool and is not directed at children under 13. We do not knowingly collect data from children.',
@@ -553,6 +624,67 @@
     document.querySelectorAll('.lang-switch button').forEach(btn => {
       btn.addEventListener('click', () => applyLang(btn.dataset.lang));
     });
+  </script>
+
+  <!-- Cookie consent banner (Google Consent Mode v2) -->
+  <div class="consent-banner" id="consentBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <p id="consentMsg">Tento web používá Google Analytics k anonymním statistikám návštěvnosti. <a href="privacy.html">Více v privacy policy</a>.</p>
+    <div class="actions">
+      <button type="button" class="reject" id="consentReject">Odmítnout</button>
+      <button type="button" class="accept" id="consentAccept">Přijmout</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      const KEY = 'wh-consent';
+      const TEXT = {
+        cs: {
+          msg: 'Tento web používá Google Analytics k anonymním statistikám návštěvnosti. <a href="privacy.html">Více v privacy policy</a>.',
+          accept: 'Přijmout',
+          reject: 'Odmítnout'
+        },
+        en: {
+          msg: 'This website uses Google Analytics for anonymous traffic statistics. <a href="privacy.html">More in the privacy policy</a>.',
+          accept: 'Accept',
+          reject: 'Reject'
+        }
+      };
+      function lang() {
+        try { const s = localStorage.getItem('wh-lang'); if (s && TEXT[s]) return s; } catch (e) {}
+        const n = (navigator.language || 'cs').toLowerCase();
+        return n.startsWith('cs') || n.startsWith('sk') ? 'cs' : 'en';
+      }
+      function applyText() {
+        const t = TEXT[lang()] || TEXT.cs;
+        const msg = document.getElementById('consentMsg');
+        const a = document.getElementById('consentAccept');
+        const r = document.getElementById('consentReject');
+        if (msg) msg.innerHTML = t.msg;
+        if (a) a.textContent = t.accept;
+        if (r) r.textContent = t.reject;
+      }
+      function set(state) {
+        try { localStorage.setItem(KEY, state); } catch (e) {}
+        if (window.gtag) {
+          gtag('consent', 'update', {
+            analytics_storage: state === 'granted' ? 'granted' : 'denied'
+          });
+        }
+        document.getElementById('consentBanner').classList.remove('visible');
+      }
+      let saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      applyText();
+      if (!saved) {
+        document.getElementById('consentBanner').classList.add('visible');
+      } else if (saved === 'granted' && window.gtag) {
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+      document.getElementById('consentAccept').addEventListener('click', () => set('granted'));
+      document.getElementById('consentReject').addEventListener('click', () => set('denied'));
+      // re-apply labels when user switches site language via existing lang-switch
+      document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', () => setTimeout(applyText, 0)));
+    })();
   </script>
 </body>
 
