@@ -461,12 +461,43 @@
       margin: 0 0 8px;
       font-size: 17px;
       letter-spacing: -0.01em;
+      /* Flex + gap: badges (.new-badge) se umístí vedle textu s konzistentním
+         odstupem a na úzkém viewportu se přirozeně zalomí pod text. */
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
     }
 
     .feature p {
       margin: 0;
       color: var(--muted);
       font-size: 14.5px;
+    }
+
+    /* Badge "Brzy v 1.6" vedle nadpisu nové feature — drobný akcentový chip.
+       Odstup od textu řídí `gap` na rodičovském .feature h3 (flex container),
+       takže badge nepotřebuje vlastní margin. */
+    .new-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      border-radius: 999px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+
+    /* Varianta pro "Experimentální" — varovná oranžová, signál
+       "ještě se na tom pracuje, AI hardware-náročná". */
+    .new-badge.experimental {
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.12);
+      border-color: rgba(251, 191, 36, 0.35);
     }
 
     /* ===== Gallery ===== */
@@ -850,7 +881,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2l2.39 7.36H22l-6.19 4.5L18.2 21 12 16.5 5.8 21l2.39-7.14L2 9.36h7.61z" />
           </svg>
-          <span data-i18n="hero.pill">Verze 1.5 - Návrhy worklogů z nezalogovaných komentářů a kalendáře</span>
+          <span data-i18n="hero.pill">Brzy verze 1.6 - Lokální AI a návrhy z aktivity v prohlížeči</span>
         </span>
         <h1>
           <span data-i18n="hero.h1a">Vykazujte chytře.</span><br>
@@ -990,6 +1021,47 @@
             <h3 data-i18n="f.icsH">Kalendářové návrhy (.ics)</h3>
             <p data-i18n="f.icsP">Připoj soukromé Google / Outlook / iCloud .ics feedy. Aplikace najde meetingy bez
               worklogu a sama je spáruje s Jira ticketem (klíč, prefix, fulltext).</p>
+          </div>
+
+          <div class="feature">
+            <div class="ico">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+              </svg>
+            </div>
+            <h3><span data-i18n="f.browserH">Návrhy z aktivity v prohlížeči</span><span class="new-badge" data-i18n="f.newBadge">Brzy v 1.6</span></h3>
+            <p data-i18n="f.browserP">Rekonstruuj pracovní sessiony z historie prohlížeče. Bloky s Jira URL se napárují
+              na ticket automaticky, ostatní dostanou popis podle dominantní kategorie (Confluence, GitHub, Slack…).
+              Vše běží lokálně a deterministicky.</p>
+          </div>
+
+          <div class="feature">
+            <div class="ico">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 2l1.5 4.5L15 8l-4.5 1.5L9 14l-1.5-4.5L3 8l4.5-1.5L9 2z" />
+                <path d="M18 14l1 2.5L21.5 17.5 19 18.5 18 21l-1-2.5L14.5 17.5 17 16.5 18 14z" />
+              </svg>
+            </div>
+            <h3><span data-i18n="f.aiH">Lokální AI v prohlížeči</span><span class="new-badge" data-i18n="f.newBadge">Brzy v 1.6</span><span class="new-badge experimental" data-i18n="f.experimentalBadge">Experimentální</span></h3>
+            <p data-i18n="f.aiP">WebLLM model běží lokálně přes WebGPU - žádná cloudová API, žádné odesílání dat.
+              On-demand tlačítka: návrh komentáře k worklogu z Jira kontextu a sémantické párování kalendářových
+              schůzek na Jira tickety.</p>
+          </div>
+
+          <div class="feature">
+            <div class="ico">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3 8-8" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
+            </div>
+            <h3><span data-i18n="f.dashboardH">Můj přehled úkolů</span><span class="new-badge" data-i18n="f.newBadge">Brzy v 1.6</span></h3>
+            <p data-i18n="f.dashboardP">Rychlý přístup ke všem assignovaným otevřeným úkolům napříč všemi Jira
+              instancemi. Jeden klik otevře detail v Jiře, nebo přímo založí worklog s předvyplněným issue.</p>
           </div>
 
           <div class="feature">
@@ -1239,7 +1311,7 @@
         'nav.bug': 'Nahlásit bug',
         'nav.support': 'Podpořit autora',
 
-        'hero.pill': 'Verze 1.5 - Návrhy worklogů z nezalogovaných komentářů a kalendáře',
+        'hero.pill': 'Brzy verze 1.6 - Lokální AI a návrhy z aktivity v prohlížeči',
         'hero.h1a': 'Vykazujte chytře.',
         'hero.h1b': 'Fakturujte snadno.',
         'hero.lead': 'Rozšíření pro Chrome a Edge pro chytré vykazování práce nad Jira instancemi. Kalendářový přehled celého týdne, multi-instance, fulltext napříč všemi Jirami a reporty pro fakturaci - bez API tokenů a bez telemetrie.',
@@ -1270,6 +1342,14 @@
         'f.commentP': 'Komentoval jsi v Jiře, ale zapomněl vykázat? Worklog Hub denně skenuje a v rozích nabídne návrh worklogu - jeden klik a máš v lokálu draft k editaci.',
         'f.icsH': 'Kalendářové návrhy (.ics)',
         'f.icsP': 'Připoj soukromé Google / Outlook / iCloud .ics feedy. Aplikace najde meetingy bez worklogu a sama je spáruje s Jira ticketem (klíč, prefix, fulltext).',
+        'f.newBadge': 'Brzy v 1.6',
+        'f.experimentalBadge': 'Experimentální',
+        'f.browserH': 'Návrhy z aktivity v prohlížeči',
+        'f.browserP': 'Rekonstruuj pracovní sessiony z historie prohlížeče. Bloky s Jira URL se napárují na ticket automaticky, ostatní dostanou popis podle dominantní kategorie (Confluence, GitHub, Slack…). Vše běží lokálně a deterministicky.',
+        'f.aiH': 'Lokální AI v prohlížeči',
+        'f.aiP': 'WebLLM model běží lokálně přes WebGPU - žádná cloudová API, žádné odesílání dat. On-demand tlačítka: návrh komentáře k worklogu z Jira kontextu a sémantické párování kalendářových schůzek na Jira tickety.',
+        'f.dashboardH': 'Můj přehled úkolů',
+        'f.dashboardP': 'Rychlý přístup ke všem assignovaným otevřeným úkolům napříč všemi Jira instancemi. Jeden klik otevře detail v Jiře, nebo přímo založí worklog s předvyplněným issue.',
         'f.localH': 'Local-first režim',
         'f.localP': 'Rozepiš worklogy lokálně, projdi přes celý týden a hromadně je odešli na server, až budeš připravený. Žádný spěch, žádné zapomenuté drobnosti.',
         'f.csvH': 'CSV import',
@@ -1336,7 +1416,7 @@
         'nav.bug': 'Report a bug',
         'nav.support': 'Support the author',
 
-        'hero.pill': 'Version 1.5 - Worklog suggestions from un-logged comments & calendar events',
+        'hero.pill': 'Coming soon: 1.6 - Local AI and suggestions from browser activity',
         'hero.h1a': 'Log smart.',
         'hero.h1b': 'Invoice easily.',
         'hero.lead': 'Chrome & Edge extension for smart time tracking across your Jira instances. A calendar overview of the whole week, multi-instance, fulltext search across every Jira, and reports for billing - no API tokens, no telemetry.',
@@ -1367,6 +1447,14 @@
         'f.commentP': 'You commented on a Jira issue but forgot to log time? Worklog Hub scans daily and suggests a worklog in the corner - one click and you have a local draft ready to edit.',
         'f.icsH': 'Calendar suggestions (.ics)',
         'f.icsP': 'Connect private Google / Outlook / iCloud .ics feeds. The app finds meetings without a worklog and matches them to a Jira ticket (key, prefix or fulltext).',
+        'f.newBadge': 'Soon in 1.6',
+        'f.experimentalBadge': 'Experimental',
+        'f.browserH': 'Suggestions from browser activity',
+        'f.browserP': 'Reconstruct work sessions from browser history. Blocks with a Jira URL get matched to the issue automatically, others get a label based on the dominant category (Confluence, GitHub, Slack…). Runs entirely locally and deterministically.',
+        'f.aiH': 'Local AI in your browser',
+        'f.aiP': 'WebLLM model runs locally over WebGPU - no cloud APIs, no data leaving your device. On-demand buttons: draft worklog comment from Jira context and semantic matching of calendar meetings to Jira tickets.',
+        'f.dashboardH': 'My issues dashboard',
+        'f.dashboardP': 'Quick access to all assigned open issues across every Jira instance. One click opens the issue detail in Jira, or creates a worklog with the issue pre-filled.',
         'f.localH': 'Local-first workflow',
         'f.localP': 'Draft worklogs in the browser, review the whole week, then bulk-push to the server when you are ready. No rush, no forgotten details.',
         'f.csvH': 'CSV import',
