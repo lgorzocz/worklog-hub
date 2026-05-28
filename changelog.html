@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="cs">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="meta.title">Worklog Hub – Changelog</title>
+  <meta name="description" data-i18n-attr="content:meta.desc"
+    content="Changelog rozšíření Worklog Hub – seznam změn napříč verzemi.">
+  <meta name="theme-color" content="#1E3A8A">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://worklog-hub.cz/changelog.html">
+
+  <!-- Google tag (gtag.js) + Consent Mode v2 (default deny, čeká na banner). -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PHMHX0MNPX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500
+    });
+    gtag('js', new Date());
+    gtag('config', 'G-PHMHX0MNPX');
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="128x128" href="assets/icon-128.png">
+  <link rel="apple-touch-icon" href="assets/icon-128.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface-2: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.10);
+      --border-2: rgba(255, 255, 255, 0.18);
+      --text: #e8ecf7;
+      --muted: #9aa3bf;
+      --primary: #6c8cff;
+      --brand: #1E3A8A;
+      --brand-2: #60A5FA;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(139, 92, 246, 0.18), transparent 60%),
+        radial-gradient(900px 500px at -10% 10%, rgba(34, 211, 238, 0.14), transparent 60%),
+        linear-gradient(180deg, #070a17 0%, #0b1020 100%);
+      min-height: 100vh;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { color: #aab9ff; text-decoration: underline; }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Header ===== */
+    header.site {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(10, 14, 30, 0.65);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand small {
+      display: block;
+      font-weight: 500;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+    }
+
+    .brand-logo svg { width: 24px; height: 24px; }
+
+    .lang-switch {
+      display: inline-flex;
+      gap: 2px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3px;
+    }
+
+    .lang-switch button {
+      background: transparent;
+      color: var(--muted);
+      border: 0;
+      padding: 6px 10px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .lang-switch button.active {
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    /* ===== Prose ===== */
+    main { padding: 48px 0 32px; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 4.5vw, 44px);
+      line-height: 1.15;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .lang-note {
+      color: var(--muted);
+      font-size: 14px;
+      font-style: italic;
+      margin: 0 0 32px;
+    }
+
+    .prose h2 {
+      font-size: 22px;
+      margin: 40px 0 12px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      letter-spacing: -0.01em;
+    }
+
+    .prose h2:first-of-type { border-top: 0; padding-top: 0; margin-top: 8px; }
+
+    .prose h3 {
+      font-size: 15px;
+      margin: 22px 0 8px;
+      color: var(--brand-2);
+    }
+
+    .prose p { margin: 0 0 14px; }
+
+    .prose ul {
+      margin: 0 0 14px;
+      padding-left: 22px;
+    }
+
+    .prose li { margin-bottom: 8px; }
+
+    .prose li.nested { margin-left: 18px; list-style: circle; }
+
+    .prose strong { color: #ffffff; }
+
+    .prose code {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1px 6px;
+      font-size: 0.92em;
+    }
+
+    /* repo-relative path links are rendered as muted plain code (non-clickable) */
+    .prose code.path {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      color: var(--muted);
+      font-size: 0.9em;
+    }
+
+    .loading { color: var(--muted); }
+
+    /* ===== Footer ===== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0 60px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 40px;
+    }
+
+    footer a { color: var(--muted); }
+
+    footer .links {
+      margin-bottom: 14px;
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 600px) {
+      .brand small { display: none; }
+      main { padding: 32px 0 16px; }
+    }
+
+    /* ===== Cookie consent banner ===== */
+    .consent-banner {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      background: rgba(11, 16, 32, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-2);
+      border-radius: 14px;
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      z-index: 200;
+    }
+    .consent-banner.visible { display: flex; }
+    .consent-banner p {
+      margin: 0;
+      flex: 1;
+      min-width: 240px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .consent-banner a { color: var(--primary); }
+    .consent-banner .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .consent-banner button {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter .15s ease, background .15s ease;
+    }
+    .consent-banner button:hover { background: rgba(255, 255, 255, 0.10); }
+    .consent-banner button.accept {
+      background: linear-gradient(135deg, #6c8cff 0%, #8b5cf6 100%);
+      border-color: transparent;
+      color: #ffffff;
+    }
+    .consent-banner button.accept:hover { filter: brightness(1.1); background: linear-gradient(135deg, #6c8cff 0%, #8b5cf6 100%); }
+  </style>
+</head>
+
+<body>
+
+  <header class="site">
+    <div class="nav">
+      <a href="index.html" class="brand">
+        <span class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 28 36 L 60 36 L 60 54 L 72 54 L 72 74 L 60 74 L 60 92 L 28 92 Z" fill="#FFFFFF" />
+            <path d="M 60 36 L 100 36 L 100 92 L 60 92 L 60 74 L 72 74 L 72 54 L 60 54 Z" fill="#60A5FA" />
+          </svg>
+        </span>
+        <span>Worklog Hub<small data-i18n="brand.tagline">Vykazujte chytře. Fakturujte snadno.</small></span>
+      </a>
+
+      <div style="display:flex; align-items:center; gap:14px;">
+        <a href="index.html" class="back-link" data-i18n="nav.back">← Zpět na úvod</a>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="cs">CS</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="eyebrow" data-i18n="cl.eyebrow">Historie verzí</div>
+      <h1 data-i18n="cl.h0">Changelog</h1>
+      <p class="lang-note" data-i18n="cl.note">Changelog je veden v angličtině.</p>
+
+      <div id="changelog" class="prose">
+        <p class="loading" data-i18n="cl.loading">Načítám changelog…</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="links">
+        <a href="index.html" data-i18n="nav.home">Úvod</a>
+        <a href="index.html#features" data-i18n="nav.features">Funkce</a>
+        <a href="index.html#bug" data-i18n="nav.bug">Nahlásit bug</a>
+        <a href="https://buymeacoffee.com/lgorzocz" target="_blank" rel="noopener">Buy me a coffee</a>
+      </div>
+      <div data-i18n="footer.copy">© 2026 Worklog Hub. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- ===== i18n (chrome only; the changelog body is English by convention) ===== -->
+  <script>
+    const I18N = {
+      cs: {
+        'meta.title': 'Worklog Hub – Changelog',
+        'meta.desc': 'Changelog rozšíření Worklog Hub – seznam změn napříč verzemi.',
+        'brand.tagline': 'Vykazujte chytře. Fakturujte snadno.',
+        'nav.back': '← Zpět na úvod',
+        'nav.home': 'Úvod',
+        'nav.features': 'Funkce',
+        'nav.bug': 'Nahlásit bug',
+        'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
+        'cl.eyebrow': 'Historie verzí',
+        'cl.h0': 'Changelog',
+        'cl.note': 'Changelog je veden v angličtině.',
+        'cl.loading': 'Načítám changelog…',
+        'cl.error': 'Changelog se nepodařilo načíst.',
+      },
+      en: {
+        'meta.title': 'Worklog Hub – Changelog',
+        'meta.desc': 'Changelog for the Worklog Hub extension – a list of changes across versions.',
+        'brand.tagline': 'Log work smartly. Bill easily.',
+        'nav.back': '← Back to home',
+        'nav.home': 'Home',
+        'nav.features': 'Features',
+        'nav.bug': 'Report a bug',
+        'footer.copy': '© 2026 Worklog Hub. All rights reserved.',
+        'cl.eyebrow': 'Version history',
+        'cl.h0': 'Changelog',
+        'cl.note': 'The changelog is maintained in English.',
+        'cl.loading': 'Loading changelog…',
+        'cl.error': 'Failed to load the changelog.',
+      },
+    };
+
+    let currentLang = 'cs';
+    function applyLang(lang) {
+      if (!I18N[lang]) lang = 'cs';
+      currentLang = lang;
+      const dict = I18N[lang];
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] === undefined) return;
+        el.textContent = dict[key];
+      });
+
+      document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+        el.getAttribute('data-i18n-attr').split(',').forEach(pair => {
+          const [attr, key] = pair.split(':').map(s => s.trim());
+          if (attr && key && dict[key] !== undefined) el.setAttribute(attr, dict[key]);
+        });
+      });
+
+      document.documentElement.lang = lang;
+      if (dict['meta.title']) document.title = dict['meta.title'];
+
+      document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      try { localStorage.setItem('wh-lang', lang); } catch (e) { }
+    }
+
+    function detectLang() {
+      try {
+        const saved = localStorage.getItem('wh-lang');
+        if (saved && I18N[saved]) return saved;
+      } catch (e) { }
+      const nav = (navigator.language || 'cs').toLowerCase();
+      if (nav.startsWith('cs') || nav.startsWith('sk')) return 'cs';
+      return 'en';
+    }
+    applyLang(detectLang());
+
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+  </script>
+
+  <!-- Changelog content (generated from CHANGELOG.md → window.CHANGELOG_MD).
+       Loaded as a classic <script src> so it works from file:// too — fetch()
+       is blocked there by CORS. On the deployed https site it works the same. -->
+  <script src="changelog-data.js"></script>
+
+  <!-- ===== Changelog renderer: renders window.CHANGELOG_MD with the same
+       minimal-markdown rules the extension uses (no external deps). ===== -->
+  <script>
+    (function () {
+      function escapeHtml(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      function renderInline(text) {
+        let out = '';
+        let rem = text;
+        while (rem.length > 0) {
+          let m;
+          if ((m = rem.match(/^\*\*([^*]+)\*\*/))) {
+            out += '<strong>' + escapeHtml(m[1]) + '</strong>';
+            rem = rem.slice(m[0].length);
+            continue;
+          }
+          if ((m = rem.match(/^`([^`]+)`/))) {
+            out += '<code>' + escapeHtml(m[1]) + '</code>';
+            rem = rem.slice(m[0].length);
+            continue;
+          }
+          if ((m = rem.match(/^\[([^\]]+)\]\(([^)]+)\)/))) {
+            const label = m[1];
+            const url = m[2];
+            if (/^https?:\/\//.test(url)) {
+              out += '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(label) + '</a>';
+            } else {
+              // repo-relative path (sources/...) - irrelevant for end users, render as muted code
+              out += '<code class="path">' + escapeHtml(label) + '</code>';
+            }
+            rem = rem.slice(m[0].length);
+            continue;
+          }
+          const next = rem.search(/\*\*|`|\[/);
+          if (next === -1) { out += escapeHtml(rem); rem = ''; }
+          else if (next === 0) { out += escapeHtml(rem[0]); rem = rem.slice(1); }
+          else { out += escapeHtml(rem.slice(0, next)); rem = rem.slice(next); }
+        }
+        return out;
+      }
+
+      function renderMarkdown(md) {
+        const lines = md.split('\n');
+        let html = '';
+        let inList = false;
+        const closeList = () => { if (inList) { html += '</ul>'; inList = false; } };
+
+        for (const line of lines) {
+          if (/^\[[^\]]+\]:\s/.test(line)) continue;     // link reference definitions
+          if (line.startsWith('# ')) continue;            // top title — page already has an <h1>
+          if (line.startsWith('## ')) { closeList(); html += '<h2>' + renderInline(line.slice(3)) + '</h2>'; continue; }
+          if (line.startsWith('### ')) { closeList(); html += '<h3>' + renderInline(line.slice(4)) + '</h3>'; continue; }
+          const bullet = line.match(/^(\s*)-\s+(.+)/);
+          if (bullet) {
+            const nested = bullet[1].length >= 2;
+            if (!inList) { html += '<ul>'; inList = true; }
+            html += '<li' + (nested ? ' class="nested"' : '') + '>' + renderInline(bullet[2]) + '</li>';
+            continue;
+          }
+          if (line.trim() === '') { closeList(); continue; }
+          closeList();
+          html += '<p>' + renderInline(line) + '</p>';
+        }
+        closeList();
+        return html;
+      }
+
+      function lang() {
+        try { const s = localStorage.getItem('wh-lang'); if (s === 'cs' || s === 'en') return s; } catch (e) { }
+        const n = (navigator.language || 'cs').toLowerCase();
+        return (n.startsWith('cs') || n.startsWith('sk')) ? 'cs' : 'en';
+      }
+
+      const target = document.getElementById('changelog');
+      const md = window.CHANGELOG_MD;
+      if (typeof md === 'string' && md.length > 0) {
+        target.innerHTML = renderMarkdown(md);
+      } else {
+        const msg = lang() === 'cs' ? 'Changelog se nepodařilo načíst.' : 'Failed to load the changelog.';
+        target.innerHTML = '<p class="loading">' + msg + '</p>';
+      }
+    })();
+  </script>
+
+  <!-- Cookie consent banner (Google Consent Mode v2) -->
+  <div class="consent-banner" id="consentBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <p id="consentMsg">Tento web používá Google Analytics k anonymním statistikám návštěvnosti. <a href="privacy.html">Více v privacy policy</a>.</p>
+    <div class="actions">
+      <button type="button" class="reject" id="consentReject">Odmítnout</button>
+      <button type="button" class="accept" id="consentAccept">Přijmout</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      const KEY = 'wh-consent';
+      const TEXT = {
+        cs: {
+          msg: 'Tento web používá Google Analytics k anonymním statistikám návštěvnosti. <a href="privacy.html">Více v privacy policy</a>.',
+          accept: 'Přijmout',
+          reject: 'Odmítnout'
+        },
+        en: {
+          msg: 'This website uses Google Analytics for anonymous traffic statistics. <a href="privacy.html">More in the privacy policy</a>.',
+          accept: 'Accept',
+          reject: 'Reject'
+        }
+      };
+      function lang() {
+        try { const s = localStorage.getItem('wh-lang'); if (s && TEXT[s]) return s; } catch (e) {}
+        const n = (navigator.language || 'cs').toLowerCase();
+        return n.startsWith('cs') || n.startsWith('sk') ? 'cs' : 'en';
+      }
+      function applyText() {
+        const t = TEXT[lang()] || TEXT.cs;
+        const msg = document.getElementById('consentMsg');
+        const a = document.getElementById('consentAccept');
+        const r = document.getElementById('consentReject');
+        if (msg) msg.innerHTML = t.msg;
+        if (a) a.textContent = t.accept;
+        if (r) r.textContent = t.reject;
+      }
+      function set(state) {
+        try { localStorage.setItem(KEY, state); } catch (e) {}
+        if (window.gtag) {
+          gtag('consent', 'update', {
+            analytics_storage: state === 'granted' ? 'granted' : 'denied'
+          });
+        }
+        document.getElementById('consentBanner').classList.remove('visible');
+      }
+      let saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      applyText();
+      if (!saved) {
+        document.getElementById('consentBanner').classList.add('visible');
+      } else if (saved === 'granted' && window.gtag) {
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+      document.getElementById('consentAccept').addEventListener('click', () => set('granted'));
+      document.getElementById('consentReject').addEventListener('click', () => set('denied'));
+      // re-apply labels when user switches site language via existing lang-switch
+      document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', () => setTimeout(applyText, 0)));
+    })();
+  </script>
+</body>
+
+</html>
