@@ -259,6 +259,58 @@
       background: var(--surface-2);
     }
 
+    .support-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 48px;
+      margin-top: 28px;
+    }
+
+    .support-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .support-qr {
+      width: 200px;
+      height: 200px;
+      border-radius: 12px;
+      display: block;
+      background: #fff;
+    }
+
+    .support-btn {
+      width: 200px;
+      justify-content: center;
+    }
+
+    .donate-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .donate-badge.rev {
+      background: #fff;
+      color: #0666eb;
+    }
+
+    .donate-badge.btc {
+      background: #f7931a;
+      color: #fff;
+    }
+
     .soon-badge {
       display: inline-block;
       padding: 2px 8px;
@@ -874,8 +926,7 @@
             <li><a href="#privacy" data-i18n="nav.privacy">Soukromí</a></li>
             <li><a href="changelog.html" data-i18n="nav.changelog">Changelog</a></li>
             <li><a href="#bug" data-i18n="nav.bug">Nahlásit bug</a></li>
-            <li><a class="btn btn-primary" href="https://buymeacoffee.com/lgorzocz" target="_blank" rel="noopener"
-                data-i18n="nav.support">Podpořit autora</a></li>
+            <li><a class="btn btn-primary" href="#support" data-i18n="nav.support">Podpořit autora</a></li>
           </ul>
         </nav>
       </div>
@@ -1286,6 +1337,35 @@
       </div>
     </section>
 
+    <!-- SUPPORT / DONATE -->
+    <section id="support" style="padding-top: 30px;">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow" data-i18n="support.eyebrow">Podpora</div>
+          <h2 data-i18n="support.h">Podpořte autora</h2>
+          <p data-i18n="support.p">Worklog Hub vyvíjím ve volném čase. Pokud vám šetří čas, můžete podpořit
+            další vývoj dobrovolným darem — díky moc!</p>
+        </div>
+        <div class="support-grid">
+          <div class="support-card">
+            <img class="support-qr" src="assets/revolut.jpeg" alt="Revolut QR" loading="lazy" />
+            <a class="btn btn-primary support-btn" href="https://revolut.me/lgorzolka" target="_blank"
+              rel="noopener">
+              <span class="donate-badge rev">R</span> Revolut
+            </a>
+          </div>
+          <div class="support-card">
+            <img class="support-qr" src="assets/btc.jpeg" alt="Bitcoin QR" loading="lazy" />
+            <button class="btn btn-ghost support-btn" type="button" id="btcCopyBtn"
+              data-btc="bc1qd2uv7u6nwcavgs79m2slyf0f7f6a6hueyduded">
+              <span class="donate-badge btc">₿</span>
+              <span data-i18n="support.copyBtc">Kopírovat BTC adresu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer>
@@ -1297,7 +1377,7 @@
         <a href="privacy.html" data-i18n="nav.privacyPolicy">Privacy Policy</a>
         <a href="changelog.html" data-i18n="nav.changelog">Changelog</a>
         <a href="#bug" data-i18n="nav.bug">Nahlásit bug</a>
-        <a href="https://buymeacoffee.com/lgorzocz" target="_blank" rel="noopener">Buy me a coffee</a>
+        <a href="#support" data-i18n="nav.support">Podpořit autora</a>
       </div>
       <div data-i18n="footer.copy">© 2026 Worklog Hub. All rights reserved.</div>
       <div style="margin-top: 6px; font-size: 12px;" data-i18n="footer.disclaimer">Worklog Hub není afiliovaný se
@@ -1327,6 +1407,11 @@
         'nav.changelog': 'Changelog',
         'nav.bug': 'Nahlásit bug',
         'nav.support': 'Podpořit autora',
+        'support.eyebrow': 'Podpora',
+        'support.h': 'Podpořte autora',
+        'support.p': 'Worklog Hub vyvíjím ve volném čase. Pokud vám šetří čas, můžete podpořit další vývoj dobrovolným darem — díky moc!',
+        'support.copyBtc': 'Kopírovat BTC adresu',
+        'support.copied': 'Adresa zkopírována do schránky',
 
         'hero.pill': 'Verze 1.6 - Lokální AI a návrhy z aktivity v prohlížeči',
         'hero.h1a': 'Vykazujte chytře.',
@@ -1432,6 +1517,11 @@
         'nav.changelog': 'Changelog',
         'nav.bug': 'Report a bug',
         'nav.support': 'Support the author',
+        'support.eyebrow': 'Support',
+        'support.h': 'Support the author',
+        'support.p': 'Worklog Hub is built in my free time. If it saves you time, you can support further development with a voluntary donation — thank you!',
+        'support.copyBtc': 'Copy BTC address',
+        'support.copied': 'Address copied to clipboard',
 
         'hero.pill': 'Version 1.6 - Local AI and suggestions from browser activity',
         'hero.h1a': 'Log smart.',
@@ -1608,6 +1698,41 @@
     document.querySelectorAll('.lang-switch button').forEach(btn => {
       btn.addEventListener('click', () => applyLang(btn.dataset.lang));
     });
+
+    // Copy BTC address to clipboard (donate section)
+    (() => {
+      const btn = document.getElementById('btcCopyBtn');
+      if (!btn) return;
+      const label = btn.querySelector('[data-i18n="support.copyBtc"]');
+      let timer;
+      btn.addEventListener('click', () => {
+        const dict = I18N[currentLang] || I18N.cs;
+        const addr = btn.dataset.btc;
+        const done = () => {
+          if (!label) return;
+          label.textContent = dict['support.copied'] || 'Address copied';
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            label.textContent = dict['support.copyBtc'] || 'Copy BTC address';
+          }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(addr).then(done).catch(() => { });
+        } else {
+          try {
+            const ta = document.createElement('textarea');
+            ta.value = addr;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            done();
+          } catch (e) { }
+        }
+      });
+    })();
 
     // Copy email to clipboard on bug-report click (fallback when no mail client is registered)
     (() => {
