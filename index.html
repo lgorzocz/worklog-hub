@@ -311,6 +311,11 @@
       color: #fff;
     }
 
+    .donate-badge.ln {
+      background: #792ee5;
+      color: #fff;
+    }
+
     .soon-badge {
       display: inline-block;
       padding: 2px 8px;
@@ -766,13 +771,18 @@
       }
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 999px) {
       section {
         padding: 60px 0;
       }
 
       .hero {
         padding: 60px 0 30px;
+      }
+
+      header.site .container {
+        padding-left: 16px;
+        padding-right: 16px;
       }
 
       nav.menu {
@@ -1349,17 +1359,24 @@
         <div class="support-grid">
           <div class="support-card">
             <img class="support-qr" src="assets/revolut.jpeg" alt="Revolut QR" loading="lazy" />
-            <a class="btn btn-primary support-btn" href="https://revolut.me/lgorzolka" target="_blank"
-              rel="noopener">
+            <a class="btn btn-primary support-btn" href="https://revolut.me/lgorzolka" target="_blank" rel="noopener">
               <span class="donate-badge rev">R</span> Revolut
             </a>
           </div>
           <div class="support-card">
             <img class="support-qr" src="assets/btc.jpeg" alt="Bitcoin QR" loading="lazy" />
-            <button class="btn btn-ghost support-btn" type="button" id="btcCopyBtn"
-              data-btc="bc1qd2uv7u6nwcavgs79m2slyf0f7f6a6hueyduded">
+            <button class="btn btn-ghost support-btn copy-addr-btn" type="button" id="btcCopyBtn"
+              data-copy="bc1qd2uv7u6nwcavgs79m2slyf0f7f6a6hueyduded">
               <span class="donate-badge btc">₿</span>
-              <span data-i18n="support.copyBtc">Kopírovat BTC adresu</span>
+              <span class="copy-addr-label" data-i18n="support.copyBtc">Kopírovat BTC adresu</span>
+            </button>
+          </div>
+          <div class="support-card">
+            <img class="support-qr" src="assets/lightning.jpeg" alt="Bitcoin Lightning QR" loading="lazy" />
+            <button class="btn btn-ghost support-btn copy-addr-btn" type="button" id="lnCopyBtn"
+              data-copy="lgorzocz@bitlifi.com">
+              <span class="donate-badge ln">⚡</span>
+              <span class="copy-addr-label" data-i18n="support.copyLn">Kopírovat Lightning adresu (BTC)</span>
             </button>
           </div>
         </div>
@@ -1411,6 +1428,7 @@
         'support.h': 'Podpořte autora',
         'support.p': 'Worklog Hub vyvíjím ve volném čase. Pokud vám šetří čas, můžete podpořit další vývoj dobrovolným darem — díky moc!',
         'support.copyBtc': 'Kopírovat BTC adresu',
+        'support.copyLn': 'Kopírovat Lightning adresu (BTC)',
         'support.copied': 'Adresa zkopírována do schránky',
 
         'hero.pill': 'Verze 1.6 - Lokální AI a návrhy z aktivity v prohlížeči',
@@ -1521,6 +1539,7 @@
         'support.h': 'Support the author',
         'support.p': 'Worklog Hub is built in my free time. If it saves you time, you can support further development with a voluntary donation — thank you!',
         'support.copyBtc': 'Copy BTC address',
+        'support.copyLn': 'Copy Lightning address (BTC)',
         'support.copied': 'Address copied to clipboard',
 
         'hero.pill': 'Version 1.6 - Local AI and suggestions from browser activity',
@@ -1699,21 +1718,20 @@
       btn.addEventListener('click', () => applyLang(btn.dataset.lang));
     });
 
-    // Copy BTC address to clipboard (donate section)
-    (() => {
-      const btn = document.getElementById('btcCopyBtn');
-      if (!btn) return;
-      const label = btn.querySelector('[data-i18n="support.copyBtc"]');
+    // Copy BTC / Lightning address to clipboard (donate section)
+    document.querySelectorAll('.copy-addr-btn').forEach(btn => {
+      const label = btn.querySelector('.copy-addr-label');
+      const origKey = label ? label.getAttribute('data-i18n') : null;
       let timer;
       btn.addEventListener('click', () => {
         const dict = I18N[currentLang] || I18N.cs;
-        const addr = btn.dataset.btc;
+        const addr = btn.dataset.copy;
         const done = () => {
           if (!label) return;
           label.textContent = dict['support.copied'] || 'Address copied';
           clearTimeout(timer);
           timer = setTimeout(() => {
-            label.textContent = dict['support.copyBtc'] || 'Copy BTC address';
+            label.textContent = (origKey && dict[origKey]) || label.textContent;
           }, 2000);
         };
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1732,7 +1750,7 @@
           } catch (e) { }
         }
       });
-    })();
+    });
 
     // Copy email to clipboard on bug-report click (fallback when no mail client is registered)
     (() => {
